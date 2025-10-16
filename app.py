@@ -85,10 +85,11 @@ def create_label_entry(parent, text, row):
     entry.grid(row=row, column=1, pady=10, padx=10 )
     return entry
 
-entry_name = create_label_entry(form_frame, "Họ và tên:", 0)
-entry_age = create_label_entry(form_frame, "Tuổi:", 1)
-entry_gender = create_label_entry(form_frame, "Giới tính:", 2)
-entry_dob = create_label_entry(form_frame, "Ngày sinh:", 3)
+entry_id = create_label_entry(form_frame, "Mã bệnh nhân:", 0)
+entry_name = create_label_entry(form_frame, "Họ và tên:", 1)
+entry_age = create_label_entry(form_frame, "Tuổi:", 2)
+entry_gender = create_label_entry(form_frame, "Giới tính:", 3)
+entry_dob = create_label_entry(form_frame, "Ngày sinh:", 4)
 
 img_label = tk.Label(right_frame,bg="white",bd=2,relief="solid",width=260,height=260)
 img_label.pack(pady=20)
@@ -104,10 +105,6 @@ def show_image(path):
 def classify_image(path):
     label, confidence = predict_image(path)
     info_text = (
-        f"Họ và tên: {entry_name.get()}\n"
-        f"Tuổi: {entry_age.get()}\n"
-        f"Giới tính: {entry_gender.get()}\n"
-        f"Ngày sinh: {entry_dob.get()}\n\n"
         f"Loại bệnh: {label}\n"
         f"Độ chính xác: {confidence:.2f}%"
     )
@@ -156,11 +153,11 @@ chat_canvas.configure(yscrollcommand=chat_scrollbar.set)
 entry_frame = tk.Frame(page_chat, bg="#f4f6f7")
 entry_frame.pack(side="bottom", fill="x", padx=10, pady=10)
 
-user_entry = tk.Entry(entry_frame, font=("Arial", 12), relief="solid", bd=1)
+user_entry = tk.Entry(entry_frame, font=("Times New Roman", 12), relief="solid", bd=1)
 user_entry.pack(side="left", fill="x", expand=True, pady=5, ipady=5)
 
 send_btn = tk.Button(entry_frame, text="Gửi", bg="#0288d1", fg="white",
-                     font=("Arial", 10, "bold"), relief="flat", padx=10, cursor="hand2")
+                     font=("Times New Roman", 10, "bold"), relief="flat", padx=10, cursor="hand2")
 send_btn.pack(side="right", padx=5)
 
 # Đặt khung chat ở trên
@@ -173,14 +170,14 @@ def add_message(text, sender="bot"):
 
     if sender == "user":
         msg = tk.Label(
-            bubble, text=text, bg="#F6F6F6", font=("Arial", 12),
+            bubble, text=text, bg="#F6F6F6", font=("Times New Roman", 12),
             wraplength=700, justify="left", anchor="e", padx=10, pady=5, bd=1, relief="solid"
         )
         msg.pack(anchor="e", padx=10)
         bubble.pack(anchor="e", pady=5, padx=20, fill="none")  
     else:
         msg = tk.Label(
-            bubble, text=text, bg="#FFFFFF", font=("Arial", 12),
+            bubble, text=text, bg="#FFFFFF", font=("Times New Roman", 12),
             wraplength=700, justify="left", anchor="w", padx=10, pady=5, bd=1, relief="solid"
         )
         msg.pack(anchor="w", padx=10)
