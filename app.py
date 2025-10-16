@@ -1,12 +1,12 @@
+import numpy as np
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 from PIL import Image, ImageTk
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-import numpy as np
-
-# ===== CHATBOT IMPORT =====
 from chatbot.chatbot import init_chatbot, ask_chat  
+from database import connect_db
 
 # ===== CẤU HÌNH CNN =====
 MODEL_PATH = "models/cnn_model.keras"
@@ -87,14 +87,62 @@ def create_label_entry(parent, text, row):
 
 entry_id = create_label_entry(form_frame, "Mã bệnh nhân:", 0)
 entry_name = create_label_entry(form_frame, "Họ và tên:", 1)
-entry_age = create_label_entry(form_frame, "Tuổi:", 2)
-entry_gender = create_label_entry(form_frame, "Giới tính:", 3)
-entry_dob = create_label_entry(form_frame, "Ngày sinh:", 4)
+entry_dob = create_label_entry(form_frame, "Ngày sinh:", 2)
+entry_age = create_label_entry(form_frame, "Tuổi:", 3)
+entry_gender = create_label_entry(form_frame, "Giới tính:", 4)
+entry_date = create_label_entry(form_frame, "Ngày khám bệnh:", 5)
+
+def save_patient_to_db():
+    global predicted_label, predicted_confidence
+
+    Ma_BN = entry_id.get()
+    Ten = entry_name.get()
+    Tuoi = entry_age.get()
+    Gioi_Tinh = entry_gender.get()
+    Ngay_Sinh = entry_dob.get()
+    Ngay_Kham = entry_date.get()
+
+    # Kiểm tra bắt buộc
+    if not Ma_BN or not Ten:
+        messagebox.showwarning("Thiếu thông tin", "Vui lòng nhập đầy đủ Mã bệnh nhân và Họ tên.")
+        return
+
+    if predicted_label is None or predicted_confidence is None:
+        messagebox.showwarning("Thiếu dữ liệu dự đoán", "Vui lòng chọn ảnh và dự đoán bệnh trước khi lưu.")
+        return
+
+    
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+            INSERT INTO Person (Ma_BN, Ten, Tuoi, Gioi_Tinh, Ngay_Sinh, Ngay_Kham, ChanDoan, Do_Chinh_Xac)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+    Ma_BN,
+    Ten,
+    int(Tuoi) if Tuoi else None,
+    Gioi_Tinh,
+    Ngay_Sinh if Ngay_Sinh else None,
+    Ngay_Kham if Ngay_Kham else None,
+    predicted_label,
+    float(predicted_confidence)
+    ))
+
+    conn.commit()
+    conn.close()
+    messagebox.showinfo("Thành công", "✅ Đã lưu thông tin bệnh nhân và kết quả dự đoán vào SQL Server.")
+
+   
+
 
 img_label = tk.Label(right_frame,bg="white",bd=2,relief="solid",width=260,height=260)
 img_label.pack(pady=20)
 result_label = tk.Label(right_frame,text="",font=("Times New Roman", 16, "bold"),fg="#004d40",bg="white",justify="left")
 result_label.pack(pady=20)
+predicted_label = None
+predicted_confidence = None
+
 
 def show_image(path):
     img = Image.open(path).resize((250, 250))
@@ -103,7 +151,10 @@ def show_image(path):
     img_label.image = img_tk
 
 def classify_image(path):
+    global predicted_label, predicted_confidence
     label, confidence = predict_image(path)
+    predicted_label = label
+    predicted_confidence = confidence
     info_text = (
         f"Loại bệnh: {label}\n"
         f"Độ chính xác: {confidence:.2f}%"
@@ -133,6 +184,13 @@ tk.Button(button_frame, text="Chọn ảnh để dự đoán", command=choose_im
 tk.Button(button_frame, text="Reset", command=reset_form,
           bg="#e53935", fg="white", font=("Times New Roman", 13, "bold"),
           padx=20, pady=8, relief="flat", cursor="hand2", activebackground="#c62828").grid(row=0, column=1, padx=5, pady=5)
+
+tk.Button(button_frame, text="Lưu thông tin",
+          command=save_patient_to_db,
+          bg="#43a047", fg="white", font=("Times New Roman", 13, "bold"),
+          padx=20, pady=8, relief="flat", cursor="hand2",
+          activebackground="#2e7d32").grid(row=0, column=2, padx=5, pady=5)
+
 
 # ======================
 # TRANG CHATBOT (CHAT Ở DƯỚI)
