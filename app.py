@@ -131,7 +131,7 @@ def save_patient_to_db():
 
     conn.commit()
     conn.close()
-    messagebox.showinfo("Thành công", "✅ Đã lưu thông tin bệnh nhân và kết quả dự đoán vào SQL Server.")
+    messagebox.showinfo("Thành công", "Đã lưu thông tin bệnh nhân và kết quả dự đoán vào SQL Server.")
 
    
 
@@ -168,10 +168,12 @@ def choose_image():
         classify_image(file_path)
 
 def reset_form():
+    entry_id.delete(0, tk.END)
     entry_name.delete(0, tk.END)
     entry_age.delete(0, tk.END)
     entry_gender.delete(0, tk.END)
     entry_dob.delete(0, tk.END)
+    entry_date.delete(0, tk.END)
     img_label.config(image='')
     img_label.image = None
     result_label.config(text='')
