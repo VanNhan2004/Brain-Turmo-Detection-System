@@ -9,18 +9,19 @@ import seaborn as sns
 labels = ["U thần kinh đệm","U màng não","Không có khối u","U tuyến yên"]
 
 # Load model
-model = load_model("models/cnn_model.keras")
+model = load_model("models/best_model.keras")
 
 # Đường dẫn thư mục test
-test_dir = "data/data_split/test"
+test_path = "data/data_split/test"
 
 # Tạo generator cho test set
 test_datagen = ImageDataGenerator(rescale=1./255)
 test_generator = test_datagen.flow_from_directory(
-    test_dir,
+    test_path,
     target_size=(224, 224),
     batch_size=32,
     class_mode="categorical",
+    color_mode='grayscale',
     shuffle=False
 )
 
@@ -30,7 +31,7 @@ y_pred_classes = np.argmax(y_pred, axis=1)
 y_true = test_generator.classes              
 
 # In báo cáo
-print("📊 Classification Report:")
+print("Classification Report:")
 print(classification_report(y_true, y_pred_classes, target_names=labels, digits=4))
 
 # Vẽ confusion matrix
