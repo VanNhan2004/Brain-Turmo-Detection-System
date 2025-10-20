@@ -1,9 +1,8 @@
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-
-# Import model và data
-from model import model
+from model_cnn import model
 from data_processing import train_generator, valid_generator
+import pickle
 
 # Biên dịch mô hình
 optimizer = Adam(learning_rate=0.0001)
@@ -13,10 +12,6 @@ model.compile(
     metrics=['accuracy']
 )
 
-# Số epoch
-EPOCHS = 100
-
-# Callback
 early_stop = EarlyStopping(
     monitor='val_loss',
     patience=10,
@@ -35,7 +30,10 @@ checkpoint = ModelCheckpoint(
 history = model.fit(
     train_generator,
     validation_data=valid_generator,
-    epochs=EPOCHS,
+    epochs = 100,
     callbacks=[early_stop, checkpoint],
     verbose=1
 )
+
+with open("history/history_cnn.plk", 'wb') as f:
+    pickle.dump(history.history, f)

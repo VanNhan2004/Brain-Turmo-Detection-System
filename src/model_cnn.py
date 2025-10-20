@@ -4,7 +4,7 @@ from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Flatten
 model = Sequential()
 
 # CNN layer 1
-model.add(Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)))
+model.add(Conv2D(32, (3,3), activation='relu', input_shape=(224,224,1)))
 model.add(MaxPooling2D(pool_size=(2,2)))
 
 # CNN layer 2
@@ -24,3 +24,4 @@ model.add(Dropout(0.5))
 
 # Layer đầu ra
 model.add(Dense(4, activation='softmax')) # 4 đầu ra
+

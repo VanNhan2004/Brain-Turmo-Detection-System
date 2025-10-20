@@ -9,14 +9,14 @@ from chatbot.chatbot import init_chatbot, ask_chat
 from database import connect_db
 
 # ===== CẤU HÌNH CNN =====
-MODEL_PATH = "models/cnn_model.keras"
+MODEL_PATH = "CNN_Model/models/best_model.keras"
 LABELS = ["U thần kinh đệm", "U màng não", "Không có khối u", "U tuyến yên"]
 LOGO_PATH = "assets/LOGO_FIT_NTTU.png"
 
 # ===== HÀM DỰ ĐOÁN CNN =====
 model = load_model(MODEL_PATH)
 def predict_image(img_path):
-    img = image.load_img(img_path, target_size=(224, 224))
+    img = image.load_img(img_path, target_size=(224, 224),color_mode='grayscale')
     x = np.expand_dims(image.img_to_array(img), axis=0) / 255.0
     y_predict = model.predict(x)[0]
     pred_idx = np.argmax(y_predict)

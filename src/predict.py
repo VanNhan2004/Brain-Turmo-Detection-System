@@ -6,13 +6,13 @@ from tensorflow.keras.models import load_model
 labels = ["U thần kinh đệm","U màng não","Không có khối u","U tuyến yên"]
 
 # Load model
-model = load_model("models/best_model.keras")
+model = load_model("models/cnn_model.keras")
 
 # Đường dẫn ảnh test
 img_path = "data/data_split/test/normal/N_2.jpg"
 
 # Tiền xử lý ảnh
-img = image.load_img(img_path, target_size=(224, 224))
+img = image.load_img(img_path, target_size=(224, 224), color_mode='grayscale')
 x = np.expand_dims(image.img_to_array(img), axis=0) / 255.0
 
 # Dự đoán
@@ -25,5 +25,5 @@ for i, prob in enumerate(y_predict):
 
 # In ra class dự đoán cao nhất và độ tin cậy
 pred_idx = np.argmax(y_predict)
-print("\n👉 Dự đoán:", labels[pred_idx])
-print("🔹 Độ tin cậy:", f"{y_predict[pred_idx]*100:.2f}%")
+print("\nDự đoán:", labels[pred_idx])
+print("Độ tin cậy:", f"{y_predict[pred_idx]*100:.2f}%")

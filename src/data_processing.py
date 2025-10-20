@@ -16,15 +16,7 @@ test_path = "data/data_split/test"
 valid_path = "data/data_split/val"
 
 
-train_data_gen = ImageDataGenerator(rescale=1./255,
-    rotation_range=20,           
-    width_shift_range=0.2,       
-    height_shift_range=0.2,      
-    shear_range=0.2,             
-    zoom_range=0.2,             
-    horizontal_flip=True,        
-    fill_mode='nearest')
-
+train_data_gen = ImageDataGenerator(rescale=1./255)
 test_data_gen = ImageDataGenerator(rescale=1./255)
 valid_data_gen = ImageDataGenerator(rescale=1./255)
 
@@ -32,16 +24,22 @@ train_generator = train_data_gen.flow_from_directory(
         train_path,
         target_size=(224, 224),
         batch_size=32,
-        class_mode='categorical')
+        color_mode='grayscale',
+        class_mode='categorical',
+        shuffle=False)
 
 valid_generator = valid_data_gen.flow_from_directory(
         valid_path,
         target_size=(224, 224),
         batch_size=32,
-        class_mode='categorical')
+        color_mode='grayscale',
+        class_mode='categorical',
+        shuffle=False)
 
 test_generator = test_data_gen.flow_from_directory(
         test_path,
         target_size=(224, 224),
         batch_size=32,
-        class_mode='categorical')
+        color_mode='grayscale',
+        class_mode='categorical',
+        shuffle=False)
