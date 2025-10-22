@@ -14,7 +14,7 @@ model.compile(
 
 early_stop = EarlyStopping(
     monitor='val_loss',
-    patience=10,
+    patience=20,
     restore_best_weights=True,
     verbose=1
 )
@@ -35,5 +35,5 @@ history = model.fit(
     verbose=1
 )
 
-with open("history/history_cnn.plk", 'wb') as f:
+with open("history/history_cnn.pkl", 'wb') as f:
     pickle.dump(history.history, f)

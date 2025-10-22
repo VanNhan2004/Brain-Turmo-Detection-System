@@ -9,7 +9,7 @@ from chatbot.chatbot import init_chatbot, ask_chat
 from database import connect_db
 
 # ===== CẤU HÌNH CNN =====
-MODEL_PATH = "CNN_Model/models/best_model.keras"
+MODEL_PATH = "models/cnn_model.keras"
 LABELS = ["U thần kinh đệm", "U màng não", "Không có khối u", "U tuyến yên"]
 LOGO_PATH = "assets/LOGO_FIT_NTTU.png"
 

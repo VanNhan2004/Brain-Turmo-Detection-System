@@ -4,6 +4,7 @@ from data_processing import test_generator
 from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pickle
 
 # Khai báo nhãn (thứ tự phải khớp với lúc train)
 labels = ["U thần kinh đệm","U màng não","Không có khối u","U tuyến yên"]
@@ -31,3 +32,19 @@ plt.title("Confusion Matrix")
 plt.show()
 
 
+# Load lại history
+with open("history/history_cnn.pkl", "rb") as f:
+    history = pickle.load(f)
+
+# Vẽ biểu đồ
+plt.plot(history['accuracy'], label='Train Accuracy')
+plt.plot(history['val_accuracy'], label='Val Accuracy')
+plt.legend()
+plt.title("Training vs Validation Accuracy")
+plt.show()
+
+plt.plot(history['loss'], label='Train Loss')
+plt.plot(history['val_loss'], label='Val Loss')
+plt.legend()
+plt.title("Training vs Validation Loss")
+plt.show()
