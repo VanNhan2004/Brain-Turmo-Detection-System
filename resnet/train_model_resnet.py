@@ -1,6 +1,6 @@
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-from model_cnn import model
+from model_resnet import model
 from data_processing import train_generator, valid_generator
 import pickle
 
@@ -20,7 +20,7 @@ early_stop = EarlyStopping(
 )
 
 checkpoint = ModelCheckpoint(
-    filepath="models/cnn_model.keras",
+    filepath="models/resnet_model.keras",
     monitor='val_loss',
     save_best_only=True,
     verbose=1
@@ -35,5 +35,5 @@ history = model.fit(
     verbose=1
 )
 
-with open("history/history_cnn.pkl", 'wb') as f:
+with open("history/history_resnet.pkl", 'wb') as f:
     pickle.dump(history.history, f)

@@ -1,7 +1,7 @@
 import numpy as np
 from tensorflow.keras.models import load_model
-from data_processing import test_generator
 from sklearn.metrics import classification_report, confusion_matrix
+from data_processing import test_generator
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
@@ -10,7 +10,7 @@ import pickle
 labels = ["U thần kinh đệm","U màng não","Không có khối u","U tuyến yên"]
 
 # Load model
-model = load_model("models/mednet_model.keras")
+model = load_model("models/resnet_model.keras")
 
 # Dự đoán toàn bộ test set
 y_pred = model.predict(test_generator, verbose=1)
@@ -33,7 +33,7 @@ plt.show()
 
 
 # Load lại history
-with open("history/history_mednet.pkl", "rb") as f:
+with open("history/history_resnet.pkl", "rb") as f:
     history = pickle.load(f)
 
 # Vẽ biểu đồ
