@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 labels = ["U thần kinh đệm","U màng não","Không có khối u","U tuyến yên"]
 
 # Load model
-model = load_model("models/resnet_model.keras")
+model = load_model("models/best_model.keras")
 
 # Đường dẫn ảnh test
 img_path = "data/data_split/test/normal/N_2.jpg"

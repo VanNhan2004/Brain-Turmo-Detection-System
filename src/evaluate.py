@@ -10,7 +10,7 @@ import pickle
 labels = ["U thần kinh đệm","U màng não","Không có khối u","U tuyến yên"]
 
 # Load model
-model = load_model("models/cnn_model.keras")
+model = load_model("models/best_model.keras")
 
 # Dự đoán toàn bộ test set
 y_pred = model.predict(test_generator, verbose=1)
